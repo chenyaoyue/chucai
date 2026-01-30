@@ -1,0 +1,16 @@
+# 缓存静态资源
+/image/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+*.css
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+*.js
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+# HTML 文件缓存时间较短
+*.html
+  Cache-Control: public, max-age=3600
