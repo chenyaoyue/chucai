@@ -1,29 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    function adjustLayout() {
-        const iPhoneContainer = document.querySelector('.iPhone161');
-        if (!iPhoneContainer) return;
-        
-        const designWidth = 375;
-        const designHeight = 813;
-        
-        const windowWidth = window.innerWidth;
-        
-        const scale = windowWidth / designWidth;
-        
-        iPhoneContainer.style.transform = `scale(${scale})`;
-        iPhoneContainer.style.transformOrigin = 'top left';
-        
-        iPhoneContainer.style.position = 'absolute';
-        iPhoneContainer.style.left = '0';
-        iPhoneContainer.style.top = '0';
-        
-        iPhoneContainer.style.width = designWidth + 'px';
-        iPhoneContainer.style.height = designHeight + 'px';
-    }
-    
-    adjustLayout();
-    window.addEventListener('resize', adjustLayout);
-    
+    const iPhoneContainer = document.querySelector('.iPhone161');
     const modal = document.getElementById('imageModal');
     const modalImage = document.getElementById('modalImage');
     const closeBtn = document.querySelector('.close');
@@ -42,38 +18,58 @@ document.addEventListener('DOMContentLoaded', function() {
         'heshengqiao-chicken-soup.png': 'https://m.hbtv.com.cn/cmdetail/776465'
     };
     
+    function adjustLayout() {
+        if (!iPhoneContainer) return;
+        const designWidth = 375;
+        const designHeight = 813;
+        const windowWidth = window.innerWidth;
+        const scale = windowWidth / designWidth;
+        iPhoneContainer.style.transform = `scale(${scale})`;
+        iPhoneContainer.style.transformOrigin = 'top left';
+        iPhoneContainer.style.position = 'absolute';
+        iPhoneContainer.style.left = '0';
+        iPhoneContainer.style.top = '0';
+        iPhoneContainer.style.width = designWidth + 'px';
+        iPhoneContainer.style.height = designHeight + 'px';
+    }
+    
+    function openModal(img) {
+        modalImage.src = img.src;
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+    
+    function getFileName(url) {
+        return url.split('/').pop().split('?')[0];
+    }
+    
+    adjustLayout();
+    window.addEventListener('resize', adjustLayout);
+    
     images.forEach(img => {
         if (!img.classList.contains('frame10')) {
             img.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                
-                modalImage.src = this.src;
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
+                openModal(this);
             });
         }
-        
-        img.addEventListener('mouseenter', function() {
-            this.style.opacity = '0.8';
-        });
-        
-        img.addEventListener('mouseleave', function() {
-            this.style.opacity = '1';
-        });
     });
     
     modalImage.addEventListener('click', function() {
-        const fileName = this.src.split('/').pop().split('?')[0];
+        const fileName = getFileName(this.src);
         const link = linkMap[fileName];
         if (link) {
             window.open(link, '_blank');
         }
     });
     
-    closeBtn.addEventListener('click', function() {
-        closeModal();
-    });
+    closeBtn.addEventListener('click', closeModal);
     
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
@@ -86,23 +82,4 @@ document.addEventListener('DOMContentLoaded', function() {
             closeModal();
         }
     });
-    
-    function closeModal() {
-        modal.classList.remove('show');
-        document.body.style.overflow = 'auto';
-    }
-    
-    const frame9 = document.querySelector('.frame9');
-    if (frame9) {
-        frame9.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 200);
-            }
-        });
-    }
-    
-    console.log('Interactive page loaded successfully!');
 });
