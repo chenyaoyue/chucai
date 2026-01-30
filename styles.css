@@ -244,6 +244,53 @@ img:active {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
+.rings-container {
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  border: 2px solid #4CAF50;
+  border-radius: 50%;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.ring-large {
+  width: 80px;
+  height: 80px;
+  opacity: 0.3;
+  animation-delay: 0s;
+}
+
+.ring-small {
+  width: 60px;
+  height: 60px;
+  opacity: 0.6;
+  top: 10px;
+  left: 10px;
+  animation-delay: 0.5s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+}
+
 @media screen and (max-width: 375px), screen and (max-height: 813px) {
   .iPhone161 {
     width: 100vw;
